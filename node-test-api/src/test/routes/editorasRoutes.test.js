@@ -45,6 +45,27 @@ describe('POST em /editoras', () => {
   });
 });
 
+describe('GET em /editoras/id', () => {
+  it('Deve retornar recurso selecionado', async () => {
+    await request(app)
+      .get(`/editoras/${idResposta}`)
+      .expect(200);
+  });
+});
+
+describe('PUT em /editoras/id', () => {
+  it.each([
+    { nome: 'Casa do Código' },
+    { cidade: 'SP' },
+    { email: 'cdc@cdc.com' },
+  ])('Deve alterar o campo nome', async (param) => {
+    await request(app)
+      .put(`/editoras/${idResposta}`)
+      .send(param)
+      .expect(204);
+  });
+});
+
 describe('DELETE em /editoras', () => {
   it('Deletar o recurso adcionado', async () => {
     await request(app)
