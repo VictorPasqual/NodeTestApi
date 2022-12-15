@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { jest } from '@jest/globals';
 import app from '../../app.js';
 
 let server;
@@ -53,16 +54,21 @@ describe('GET em /editoras/id', () => {
   });
 });
 
+// %s serve para usar qualquer string que achar dentro do Array
 describe('PUT em /editoras/id', () => {
   it.each([
-    { nome: 'Casa do Código' },
-    { cidade: 'SP' },
-    { email: 'cdc@cdc.com' },
-  ])('Deve alterar o campo nome', async (param) => {
-    await request(app)
+    ['nome', { nome: 'Casa do Código' }],
+    ['cidade', { cidade: 'SP' }],
+    ['email', { email: 'cdc@cdc.com' }],
+  ])('Deve alterar o campo %s', async (chave, param) => {
+    const requisicao = { request };
+    const spy = jest.spyOn(requisicao, 'request');
+    await requisicao.request(app)
       .put(`/editoras/${idResposta}`)
       .send(param)
       .expect(204);
+
+    expect(spy).toHaveBeenCalled();
   });
 });
 
