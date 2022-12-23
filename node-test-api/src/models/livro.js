@@ -10,7 +10,7 @@ class Livro {
     editora_id,
     autor_id,
     created_at,
-    updated_at
+    updated_at,
   }) {
     this.id = null || id;
     this.titulo = titulo;
